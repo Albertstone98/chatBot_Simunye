@@ -1,0 +1,189 @@
+[
+  {
+    "id": "simunye_quienes_somos",
+    "tema": "Consultora Simunye",
+    "preguntas_ejemplo": [
+      "¿Qué es Simunye?",
+      "¿Quiénes forman parte de Simunye?",
+      "¿Qué hacen en la consultora?"
+    ],
+    "keywords": [
+      "simunye",
+      "consultoria tecnoeducativa",
+      "tecnologia educativa situada",
+      "equipo",
+      "alejandro gomez nieto",
+      "javier agustin larroca",
+      "jose alberto rodriguez"
+    ],
+    "respuesta": "Simunye – Consultoría Tecnoeducativa es un equipo dedicado al diseño de experiencias de aprendizaje mediadas por tecnología [cite: 6]. Creemos que aprender programación tiene más sentido cuando permite crear, resolver problemas y transformar ideas en proyectos vinculados con nuestra realidad [cite: 6]. El equipo está integrado por Alejandro Gómez Nieto (Desarrollador de software y docente universitario en UTN) [cite: 6], Javier Agustín Larroca (Técnico Universitario en Programación, desarrollador fullstack y docente universitario en UTN) [cite: 6], y José Alberto Rodríguez (Programador y docente universitario en la UTN Facultad Regional General Pacheco) [cite: 6]."
+  },
+  {
+    "id": "curso_programacion_impacto",
+    "tema": "Curso Programación con Impacto",
+    "preguntas_ejemplo": [
+      "¿De qué trata el curso Programación con Impacto?",
+      "¿Cuál es el objetivo del curso?",
+      "¿Necesito saber programar para empezar?"
+    ],
+    "keywords": [
+      "programacion con impacto",
+      "curso",
+      "comunidad",
+      "solucion digital",
+      "transformar ideas",
+      "sin saber programar"
+    ],
+    "respuesta": "El curso 'Programación con Impacto: creando soluciones digitales para nuestra comunidad' propone aprender los primeros conceptos de programación mientras se diseña en equipo una solución digital para una situación real de la comunidad [cite: 1, 2]. No necesitás saberlo todo para empezar: el enfoque invita a experimentar, equivocarse, probar nuevamente y aprender durante el proceso [cite: 2]."
+  },
+  {
+    "id": "objetivos_y_perfil_egreso",
+    "tema": "Objetivos del Curso",
+    "preguntas_ejemplo": [
+      "¿Qué voy a poder hacer al finalizar el curso?",
+      "¿Cuáles son las metas del recorrido?"
+    ],
+    "keywords": [
+      "que vas a poder hacer",
+      "identificar problemas",
+      "pensamiento computacional",
+      "diseñar solucion digital",
+      "trabajar colaborativamente",
+      "fundamentar decisiones"
+    ],
+    "respuesta": "Al finalizar el recorrido vas a poder:\n1. Identificar situaciones o problemas de tu entorno que puedan abordarse mediante una solución digital [cite: 2].\n2. Aplicar conceptos básicos de programación y pensamiento computacional para resolver problemas [cite: 2].\n3. Diseñar y desarrollar una solución digital sencilla vinculada con una necesidad de la comunidad [cite: 2].\n4. Trabajar colaborativamente, tomando decisiones y revisando las soluciones desarrolladas [cite: 2].\n5. Explicar y fundamentar las decisiones tomadas durante el desarrollo del proyecto [cite: 2]."
+  },
+  {
+    "id": "hoja_de_ruta_etapas",
+    "tema": "Hoja de Ruta",
+    "preguntas_ejemplo": [
+      "¿Cuál es la hoja de ruta del curso?",
+      "¿Cuáles son las etapas del proyecto?"
+    ],
+    "keywords": [
+      "hoja de ruta",
+      "explorar",
+      "pensar",
+      "idear",
+      "crear",
+      "compartir",
+      "etapas del proyecto"
+    ],
+    "respuesta": "El recorrido metodológico consta de 5 etapas secuenciales:\n- Etapa 1: EXPLORAR - Detectamos necesidades de nuestra comunidad y observamos situaciones que podrían mejorar [cite: 4].\n- Etapa 2: PENSAR - Convertimos problemas en desafíos y aprendemos a analizarlos con pensamiento computacional [cite: 4].\n- Etapa 3: IDEAR - Diseñamos una posible solución, definimos ideas y planificamos nuestro proyecto [cite: 4].\n- Etapa 4: CREAR - Usamos la programación para transformar nuestra idea en un proyecto digital [cite: 4].\n- Etapa 5: COMPARTIR - Presentamos nuestra solución, explicamos nuestras decisiones y recibimos devoluciones para seguir mejorando [cite: 4]."
+  },
+  {
+    "id": "cronograma_semanal",
+    "tema": "Cronograma",
+    "preguntas_ejemplo": [
+      "¿Cómo es el cronograma de las 5 semanas?",
+      "¿Qué se hace cada semana en el curso?"
+    ],
+    "keywords": [
+      "cronograma",
+      "semana 1",
+      "semana 2",
+      "semana 3",
+      "semana 4",
+      "semana 5",
+      "produccion",
+      "mapa de problemas",
+      "prototipo",
+      "presentacion final"
+    ],
+    "respuesta": "El recorrido dura 5 semanas de trabajo progresivo:\n- Semana 1 (Explorar): Observar el entorno e identificar necesidades. Producción: Mapa de problemas y selección de uno [cite: 5].\n- Semana 2 (Pensar): Analizar el problema con pensamiento computacional. Producción: Descomposición del problema y posibles respuestas [cite: 5].\n- Semana 3 (Idear): Diseñar la solución digital y definir funcionamiento. Producción: Boceto/prototipo y planificación [cite: 5].\n- Semana 4 (Crear): Aplicar conceptos básicos de programación para construir la solución. Producción: Primera versión funcional del proyecto [cite: 5].\n- Semana 5 (Compartir): Presentar el proyecto, justificar decisiones y recibir retroalimentación. Producción: Presentación final y reflexión del equipo [cite: 5]."
+  },
+  {
+    "id": "modalidad_y_comunicacion",
+    "tema": "Modalidad y Comunicación",
+    "preguntas_ejemplo": [
+      "¿Cómo se desarrolla el curso y cómo nos comunicamos?",
+      "¿Dónde están los espacios de intercambio?"
+    ],
+    "keywords": [
+      "modalidad en linea",
+      "moodle",
+      "avisos y novedades",
+      "consultas e intercambio",
+      "espacios de comunicacion"
+    ],
+    "respuesta": "El curso se desarrolla completamente en línea a través de Moodle [cite: 5]. Para mantenernos conectados y no aprender en soledad, cuenta con espacios específicos:\n- 'Avisos y novedades' para recibir la información oficial del equipo docente [cite: 6].\n- 'Entre todos: consultas e intercambio' para compartir dudas con compañeros y docentes [cite: 6]."
+  },
+  {
+    "id": "primera_mision_detectives",
+    "tema": "Primera Misión",
+    "preguntas_ejemplo": [
+      "¿En qué consiste la primera misión del curso?",
+      "¿Cuál es el punto de partida del proyecto?"
+    ],
+    "keywords": [
+      "primera mision",
+      "detectives de nuestra comunidad",
+      "radar de problemas",
+      "modulo interactivo",
+      "auditoria comunitaria"
+    ],
+    "respuesta": "Titulada 'Detectives de nuestra comunidad', plantea que todo proyecto empieza antes de escribir la primera línea de código, haciéndonos la pregunta: qué problema queremos resolver [cite: 7]. Incluye:\n- Actividad 1 (Explorar): Radar de problemas: qué podemos mejorar [cite: 7]\n- Actividad 2 (Pensar): Módulo Interactivo: Lógica y Debugging Comunitario [cite: 7]\n- Actividad 3 (Idear): Auditoría Comunitaria: Laboratorio P2P de Soluciones [cite: 7]"
+  },
+  {
+    "id": "perfiles_equipo_simunye",
+    "tema": "Equipo Simunye",
+    "preguntas_ejemplo": [
+      "¿Cuáles son los perfiles profesionales de los creadores de Simunye?",
+      "¿Dónde trabajan los integrantes de la consultora?"
+    ],
+    "keywords": [
+      "alejandro gomez nieto",
+      "javier agustin larroca",
+      "jose alberto rodriguez",
+      "perfiles profesionales",
+      "utn"
+    ],
+    "respuesta": "Detalle de los perfiles profesionales del equipo:\n- Alejandro Gómez Nieto: Desarrollador de software y docente en la Universidad Tecnológica Nacional (UTN), experto en C#, .NET, SQL y herramientas web [cite: 6].\n- Javier Agustín Larroca: Técnico Universitario en Programación, desarrollador fullstack especializado en tecnologías .NET y docente en la UTN [cite: 6].\n- José Alberto Rodríguez: Programador y docente universitario en la UTN Facultad Regional General Pacheco, especializado en sistemas informáticos y tecnología educativa [cite: 6]."
+  },
+  {
+    "id": "problematica_y_dua",
+    "tema": "Problemática y DUA",
+    "preguntas_ejemplo": [
+      "¿Qué problema abordamos en el curso?",
+      "¿Cómo puedo presentar mi actividad según el DUA?",
+      "¿Puedo usar audio o imágenes para participar?"
+    ],
+    "keywords": [
+      "problematica",
+      "barrio",
+      "escuela",
+      "dua",
+      "medios de expresion",
+      "texto",
+      "imagen",
+      "audio"
+    ],
+    "respuesta": "Partimos de abordar la problemática de una enseñanza de la programación abstracta y desconectada de nuestra realidad cotidiana (como la de nuestro entorno en la Villa 21-24 / Barracas o la escuela). Aplicando el DUA (Diseño Universal para el Aprendizaje), tenés múltiples medios de expresión para resolver la actividad inicial: podés presentar tu 'Radar de problemas' mediante texto, una imagen acompañada de explicación, o un audio, eligiendo aquello que mejor se adapte a vos."
+  },
+  {
+    "id": "rubrica_evaluacion",
+    "tema": "Evaluación",
+    "preguntas_ejemplo": [
+      "¿Cómo se evalúa el curso?",
+      "¿Cuáles son los criterios de la rúbrica?",
+      "¿Qué niveles de desempeño hay?"
+    ],
+    "keywords": [
+      "rubrica",
+      "evaluacion",
+      "criterios",
+      "niveles",
+      "destacado",
+      "logrado",
+      "en proceso",
+      "inicial"
+    ],
+    "respuesta": "La evaluación se realiza mediante una rúbrica formativa que valora tanto el proceso como el producto final a través de cuatro criterios: 1) Identificación y análisis del problema, 2) Pensamiento computacional y programación, 3) Diseño y mejora de la solución, y 4) Trabajo colaborativo y fundamentación. Los niveles de desempeño son: Destacado, Logrado, En proceso e Inicial."
+  },
+  {
+        "id": "ayuda_cplusplus",
+        "tema": "Programación en C++",
+        "keywords": ["c++", "cpp", "codigo", "variable", "cout", "cin", "for", "while", "if", "compilar"],
+        "respuesta": "¡Programamos en C++! Recordá que podés usar herramientas como Code::Blocks o Visual Studio Community. Si tenés una duda con la sintaxis o la lógica (como un `if` o un `for`), contame qué estás queriendo resolver y te ayudo a pensarlo paso a paso, pero sin darte el código hecho."
+      }
+]

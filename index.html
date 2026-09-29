@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simunye · Asistente de Conversación</title>
+<style>
+  :root {
+    --primary: #0b2545;
+    --primary-light: #134074;
+    --accent: #B0722A;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #07111e 0%, #0b2545 50%, #134074 100%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .chat-wrapper {
+    width: 100%;
+    max-width: 850px;
+    height: 700px;
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* Cabecera */
+  .chat-header {
+    background: var(--primary);
+    color: white;
+    padding: 16px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-img {
+    height: 52px;
+    width: auto;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+  }
+
+  .header-info h1 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .header-info p {
+    font-size: 12.5px;
+    color: #93c5fd;
+    margin-top: 1px;
+  }
+
+  /* Botón GEM con icono real SVG */
+  .gem-btn {
+    background: var(--accent);
+    color: white;
+    padding: 9px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 12.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 4px 12px rgba(176, 114, 42, 0.3);
+    white-space: nowrap;
+  }
+  .gem-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
+  .gem-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  /* Sugerencias rápidas arriba (debajo del header) con iconos SVG limpios */
+  .quick-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 20px;
+    background: #f1f5f9;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .suggestion-pill {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--primary);
+    padding: 7px 14px;
+    border-radius: 18px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  .suggestion-pill:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+  .suggestion-pill svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+
+  /* Mensajes / Burbujas */
+  .chat-messages {
+    flex: 1;
+    padding: 22px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #f8fafc;
+    scroll-behavior: smooth;
+  }
+
+  .bubble {
+    max-width: 85%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    animation: fadeIn 0.2s ease;
+    position: relative;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .bubble.bot {
+    background: #ffffff;
+    color: var(--text-main);
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  }
+
+  .bubble.user {
+    background: var(--primary-light);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 5px rgba(19, 64, 116, 0.2);
+  }
+
+  .bubble a {
+    color: #1d4ed8;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .bubble.user a {
+    color: #93c5fd;
+  }
+
+  /* Único botón de audio (Escuchar / Detener) */
+  .audio-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 10px;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
+    color: var(--primary);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .audio-btn:hover {
+    background: var(--primary);
+    color: white;
+  }
+
+  /* Input del chat */
+  .chat-input-area {
+    padding: 16px 20px;
+    background: white;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+  }
+
+  .chat-input-area input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14.5px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .chat-input-area input:focus {
+    border-color: var(--primary);
+  }
+
+  .chat-input-area button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .chat-input-area button:hover {
+    background: var(--primary-light);
+  }
+
+  .chat-footer {
+    background: #f8fafc;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    .chat-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .gem-btn { width: 100%; justify-content: center; }
+    .chat-wrapper { height: 100vh; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="chat-wrapper">
+  <div class="chat-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="Simunye Logo" class="logo-img" onerror="this.style.display='none'">
+      <div class="header-info">
+        <h1>Simunye Asistente</h1>
+        <p>Programación con Impacto · C++ y Educación Situada</p>
+      </div>
+    </div>
+    <a href="https://gemini.google.com/gem/1OQiE81IKYquk4-gFIJI4JleO0b7z8GXM?usp=sharing" target="_blank" class="gem-btn">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8m1-13h-2v6h6v-2h-4z"/></svg>
+      Abrir GEM Avanzado
+    </a>
+  </div>
+
+  <div class="quick-suggestions">
+    <button class="suggestion-pill" onclick="sendPreset('Sobre el Curso')">
+      <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12z"/></svg>
+      Sobre el Curso
+    </button>
+    <button class="suggestion-pill" onclick="sendPreset('Hoja de Ruta')">
+      <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.1V5l6 2.1v11.9z"/></svg>
+      Hoja de Ruta
+    </button>
+    <button class="suggestion-pill" onclick="sendPreset('Cronograma')">
+      <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+      Cronograma
+    </button>
+    <button class="suggestion-pill" onclick="sendPreset('Actividades')">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Actividades
+    </button>
+    <button class="suggestion-pill" onclick="sendPreset('Equipo')">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Equipo
+    </button>
+    <button class="suggestion-pill" onclick="sendPreset('Quiénes somos')">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+      Quiénes somos
+    </button>
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="bubble bot">¡Hola! Soy el asistente conversacional de Simunye. Seleccioná un tema arriba o escribime tu consulta (también podés saludar con un "Hola" o consultar qué sé hacer). ¿En qué te ayudamos hoy?</div>
+  </div>
+
+  <div class="chat-input-area">
+    <input type="text" id="userInput" placeholder="Escribí tu mensaje aquí..." autocomplete="off">
+    <button id="sendBtn" type="button">Enviar</button>
+  </div>
+
+  <div class="chat-footer">
+    Simunye – Consultoría Tecnoeducativa · Licenciatura en Tecnología Educativa · UTN
+  </div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    const kb = [
+      {
+        "keywords": ["hola", "buen dia", "buenas", "que tal", "saludos", "hey"],
+        "resp": "¡Hola! Qué gusto saludarte. ¿Cómo estás? Estoy aquí para ayudarte con todo lo relacionado al curso de Programación con Impacto. ¿Sobre qué tema te gustaría consultar?"
+      },
+      {
+        "keywords": ["como estas", "todo bien", "y vos", "como va"],
+        "resp": "¡Todo excelente por aquí, con muchas ganas de ayudarte a avanzar en el proyecto! ¿Qué duda tenés hoy?"
+      },
+      {
+        "keywords": ["chau", "adios", "hasta luego", "nos vemos", "gracias"],
+        "resp": "¡Chau! Mucho éxito con el desarrollo de tu proyecto y las actividades. Si necesitás algo más, por acá estaré. ¡Saludos!"
+      },
+      {
+        "keywords": ["que podes hacer", "que sabes hacer", "ayuda", "asistencia", "en que me podes ayudar", "para que servís"],
+        "resp": "Puedo asistirte en todo lo vinculado con <b>Programación con Impacto</b>. Podés consultarme sobre:<br>• La propuesta del curso y sus objetivos.<br>• La hoja de ruta de las 5 etapas.<br>• El cronograma semanal y las entregas.<br>• El detalle de las actividades, el uso de Moodle (LMS), DUA, Rúbrica o C++.<br><br>¡Escribime tu consulta libremente o usá los botones de arriba!"
+      },
+      {
+        "keywords": ["quienes somos", "simunye", "consultoria", "proposito", "mision", "tecnodiversidad", "tecnologia situada"],
+        "resp": "<b>Simunye – Consultoría Tecnoeducativa</b> transforma la enseñanza de la tecnología y la informática en escuelas e institutos técnicos. Nos posicionamos frente a la cultura tecnodiversa promoviendo una apropiación tecnológica situada, alejándonos de los enfoques técnicos universales y abstractos.<br><br>Diseñamos entornos formativos donde los estudiantes aprenden desarrollo y lógica resolviendo problemas reales de su comunidad, pasando de la teoría abstracta a la creación de proyectos concretos.<br><br>• <b>Espacio institucional en LinkedIn</b>: <a href='https://www.linkedin.com/company/simunye-tecnoedu' target='_blank'>Ver perfil de la Consultora</a>"
+      },
+      {
+        "keywords": ["equipo", "docentes", "integrantes", "alejandro", "javier", "jose", "rodriguez", "gomez", "larroca", "linkedin"],
+        "resp": "El equipo de profesionales e integrantes de <b>Simunye</b> está conformado por:<br><br>• <b>Alejandro Gómez Nieto</b> (Desarrollador y docente UTN): <a href='https://www.linkedin.com/in/alejandrogomeznieto/' target='_blank'>Ver perfil en LinkedIn</a><br>• <b>Javier Agustín Larroca</b> (Técnico Universitario en Programación, desarrollador fullstack y docente UTN): <a href='https://www.linkedin.com/in/javier-larroca/' target='_blank'>Ver perfil en LinkedIn</a><br>• <b>José Alberto Rodríguez</b> (Programador y docente UTN Facultad Regional General Pacheco): <a href='https://www.linkedin.com/in/jos%C3%A9-alberto-rodr%C3%ADguez1998/' target='_blank'>Ver perfil en LinkedIn</a>"
+      },
+      {
+        "keywords": ["sobre el curso", "curso", "programacion con impacto", "de que trata", "objetivo", "comunidad", "barrio", "villa 21", "empezar"],
+        "resp": "El curso <b>'Programación con Impacto: creando soluciones digitales para nuestra comunidad'</b> propone aprender los primeros conceptos de programación mientras se diseña en equipo una solución digital para una situación real de la comunidad.<br><br>No necesitás saberlo todo para empezar: el enfoque invita a experimentar, equivocarse, probar nuevamente y aprender durante el proceso."
+      },
+      {
+        "keywords": ["hoja de ruta", "etapas", "explorar", "pensar", "idear", "crear", "compartir", "definicion", "5 etapas"],
+        "resp": "El recorrido metodológico consta de <b>5 etapas secuenciales</b>:<br><br>1. <b>Explorar</b>: Detectamos necesidades de nuestra comunidad y observamos situaciones que podrían mejorar.<br>2. <b>Pensar</b>: Convertimos problemas en desafíos y aprendemos a analizarlos con pensamiento computacional.<br>3. <b>Idear</b>: Diseñamos una posible solución, definimos ideas y planificamos nuestro proyecto.<br>4. <b>Crear</b>: Usamos la programación en C++ para transformar nuestra idea en un proyecto digital.<br>5. <b>Compartir</b>: Presentamos nuestra solución, explicamos nuestras decisiones y recibimos devoluciones para seguir mejorando."
+      },
+      {
+        "keywords": ["cronograma", "semana", "semana 1", "semana 2", "semana 3", "semana 4", "semana 5", "produccion"],
+        "resp": "El cronograma del curso comprende <b>5 semanas de trabajo progresivo</b>:<br><br>• <b>Semana 1 (Explorar)</b>: Observar el entorno e identificar necesidades.<br><i>Producción</i>: Mapa de problemas y selección de uno.<br><br>• <b>Semana 2 (Pensar)</b>: Analizar el problema y trabajar con pensamiento computacional.<br><i>Producción</i>: Descomposición del problema y posibles respuestas.<br><br>• <b>Semana 3 (Idear)</b>: Diseñar la solución digital y definir su funcionamiento.<br><i>Producción</i>: Boceto/prototipo y planificación.<br><br>• <b>Semana 4 (Crear)</b>: Aplicar conceptos de programación para construir la solución.<br><i>Producción</i>: Primera versión funcional del proyecto.<br><br>• <b>Semana 5 (Compartir)</b>: Presentar el proyecto, justificar decisiones y recibir retroalimentación.<br><i>Producción</i>: Presentación final y reflexión del equipo."
+      },
+      {
+        "keywords": ["actividades", "que actividades hay", "las actividades", "trabajos practicos"],
+        "resp": "El recorrido cuenta con <b>tres actividades principales</b> orientadas al desarrollo de tu proyecto comunitario:<br><br>• <b>Actividad 1 (Explorar)</b>: Radar de problemas en tu entorno.<br>• <b>Actividad 2 (Pensar)</b>: Módulo interactivo de lógica y debugging comunitario.<br>• <b>Actividad 3 (Idear)</b>: Auditoría comunitaria y laboratorio P2P de soluciones.<br><br><i>¿Querés ver el detalle completo de alguna?</i> Escribime en el chat <b>'Actividad 1'</b>, <b>'Actividad 2'</b> o <b>'Actividad 3'</b>."
+      },
+      {
+        "keywords": ["actividad 1", "radar", "problemas", "desafio", "que sucede", "a quienes afecta", "dua", "actividad i"],
+        "resp": "<b>Actividad 1 - Explorar: Radar de problemas: ¿qué podemos mejorar?</b><br><br>Identificá una situación o problema real de tu escuela, barrio o comunidad que consideres que podría mejorarse y contanos:<br>1. <b>¿Qué sucede?</b> (Describí brevemente la situación).<br>2. <b>¿A quiénes afecta?</b><br>3. <b>¿Por qué pensás que sería importante mejorarla?</b><br>4. <b>¿Cómo te imaginás que la tecnología podría ayudar?</b><br><br><i>Aplicando DUA</i>: Podés compartir tu respuesta mediante texto, imagen/boceto con explicación, o un audio grabado."
+      },
+      {
+        "keywords": ["actividad 2", "pensar", "modulo interactivo", "logica", "debugging", "algoritmo", "secuencia", "actividad ii"],
+        "resp": "<b>Actividad 2 - Pensar: Módulo Interactivo de Lógica y Debugging Comunitario</b><br><br>Antes de escribir código en el editor, validamos la secuencia lógica de nuestra solución comunitaria:<br>• <b>Paso 1</b>: ¿Qué instrucción inicial permite al sistema capturar la información del territorio?<br>• <b>Paso 2</b>: ¿Cuál es el criterio lógico correcto que determina si la situación reportada requiere intervención?<br>• <b>Paso 3</b>: ¿Qué acción concreta soluciona el evento sin romper el ciclo del programa ni falsear los datos?<br>• <b>Paso 4</b>: ¿Cómo debe finalizar el flujo para que la información quede registrada y el sistema listo para el próximo caso?<br><br><i>Atención con la depuración</i>: Identificá bloques con contradicciones o ciclos infinitos antes de confirmar."
+      },
+      {
+        "keywords": ["actividad 3", "idear", "auditoria", "laboratorio", "p2p", "ficha tecnica", "input", "output", "actividad iii"],
+        "resp": "<b>Actividad 3 - Idear: Auditoría Comunitaria (Laboratorio P2P de Soluciones)</b><br><br>Pasamos a la ingeniería de la solución auditando entre pares:<br>• <b>Paso 1 (Ficha Técnica)</b>: Presentá tu propuesta respondiendo qué problema elegiste, cuál es el Dato de Entrada (Input) y cuál es la Salida Esperada (Output) del sistema.<br>• <b>Paso 2 (Auditoría P2P / Coevaluación)</b>: Evaluá la propuesta de al menos dos compañeros respondiendo: 1) ¿Qué pasaría en el barrio si no hay conexión a Internet o si ingresan un dato vacío? (Casos borde). 2) Sugerí un aporte algorítmico concreto (filtro, alerta o menú) para evitar errores."
+      },
+      {
+        "keywords": ["lms", "moodle", "plataforma", "sections", "offline", "sin conexion"],
+        "resp": "<b>Selección del LMS: Moodle</b><br><br>Seleccionamos Moodle fundamentándolo mediante el modelo SECTIONS:<br>• <b>Students</b>: Permite acceso móvil y descarga de contenidos para trabajar sin conexión (ideal ante conectividad precaria).<br>• <b>Ease of use</b>: Estructura clara por secciones y recursos predecibles.<br>• <b>Teaching</b>: Integra foros, tareas y recursos orientados a proyectos y resolución de problemas.<br>• <b>Costs</b>: Software libre, sin licencias propietarias por estudiante.<br>• <b>Security and privacy</b>: Soberanía institucional sobre los datos."
+      },
+      {
+        "keywords": ["dua", "diseno universal", "medios de expresion", "barreras"],
+        "resp": "<b>Aplicación del DUA (Diseño Universal para el Aprendizaje)</b><br><br>En el diseño anticipamos diferencias en las experiencias y participación de los estudiantes:<br>• <b>Múltiples medios de acción y expresión</b>: Permite presentar actividades (como el Radar de problemas) mediante texto, imagen/boceto explicado o audio.<br>• <b>Múltiples medios de compromiso</b>: Favorece la autonomía al elegir problemáticas reales de su propia comunidad."
+      },
+      {
+        "keywords": ["rubrica", "evaluacion", "criterios", "niveles de desempeno"],
+        "resp": "<b>Rúbrica de Evaluación</b><br><br>La evaluación es formativa y valora tanto el proceso como el producto a través de 4 criterios principales:<br>1. Identificación y análisis del problema.<br>2. Pensamiento computacional y programación.<br>3. Diseño y mejora de la solución.<br>4. Trabajo colaborativo y fundamentación.<br><br><i>Niveles de desempeño</i>: Destacado, Logrado, En proceso e Inicial."
+      },
+      {
+        "keywords": ["c++", "cpp", "codigo", "variable", "cout", "cin", "for", "while", "if", "sintaxis"],
+        "resp": "En el curso programamos utilizando <b>C++</b>. Si tenés dudas con la sintaxis (como declarar variables, armar un condicional <code>if</code>, un bucle <code>for</code> o <code>while</code>), contame qué estás intentando resolver.<br><br>Te guiaré con preguntas orientadoras y ejemplos sencillos, pero sin darte el código hecho para que puedas construirlo por vos mismo."
+      }
+    ];
+
+    const chatMessages = document.getElementById("chatMessages");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function scrollToBottom() {
+      chatMessages.scrollTo({
+        top: chatMessages.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    let currentUtterance = null;
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function speakText(plainText) {
+      if (!('speechSynthesis' in window)) {
+        alert("Tu navegador no soporta el lector de texto.");
+        return;
+      }
+      stopSpeech();
+      currentUtterance = new SpeechSynthesisUtterance(plainText);
+      currentUtterance.lang = 'es-AR';
+      currentUtterance.rate = 1.0;
+      window.speechSynthesis.speak(currentUtterance);
+    }
+
+    function addBubble(htmlContent, sender) {
+      const div = document.createElement("div");
+      div.className = "bubble " + sender;
+      div.innerHTML = htmlContent;
+
+      if (sender === 'bot') {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlContent;
+        const plainText = tempDiv.textContent || tempDiv.innerText || "";
+
+        const audioBtn = document.createElement("button");
+        audioBtn.className = "audio-btn";
+        audioBtn.innerHTML = "🔊 Escuchar";
+        
+        let isPlaying = false;
+
+        audioBtn.onclick = () => {
+          if (!('speechSynthesis' in window)) return;
+
+          if (window.speechSynthesis.speaking && isPlaying) {
+            window.speechSynthesis.cancel();
+            audioBtn.innerHTML = "🔊 Escuchar";
+            isPlaying = false;
+          } else {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(plainText);
+            utterance.lang = 'es-AR';
+            utterance.rate = 1.0;
+            
+            audioBtn.innerHTML = "⏹️ Detener";
+            isPlaying = true;
+
+            utterance.onend = () => {
+              audioBtn.innerHTML = "🔊 Escuchar";
+              isPlaying = false;
+            };
+            utterance.onerror = () => {
+              audioBtn.innerHTML = "🔊 Escuchar";
+              isPlaying = false;
+            };
+
+            window.speechSynthesis.speak(utterance);
+          }
+        };
+
+        div.appendChild(document.createElement("br"));
+        div.appendChild(audioBtn);
+      }
+
+      chatMessages.appendChild(div);
+      scrollToBottom();
+    }
+
+    function findAnswer(query) {
+      const q = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      let bestMatch = null;
+      let maxScore = 0;
+
+      for (let item of kb) {
+        let score = 0;
+        for (let kw of item.keywords) {
+          if (q.indexOf(kw) >= 0) {
+            score += kw.length;
+          }
+        }
+        if (score > maxScore) {
+          maxScore = score;
+          bestMatch = item;
+        }
+      }
+
+      if (bestMatch && maxScore > 0) {
+        return bestMatch.resp;
+      }
+
+      return "Para resolver este desafío en tu proyecto, te recomiendo descomponer el problema en partes sencillas mediante el pensamiento computacional. Recordá conectar tu solución con la realidad de la comunidad y estructurarla adecuadamente en C++. Si querés profundizar en tiempo real, abrí nuestro GEM oficial con el botón superior.";
+    }
+
+    window.sendPreset = function(text) {
+      addBubble(text, "user");
+      setTimeout(() => {
+        const resp = findAnswer(text);
+        addBubble(resp, "bot");
+      }, 400);
+    };
+
+    function handleSubmission() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      
+      addBubble(text, "user");
+      userInput.value = "";
+
+      setTimeout(() => {
+        const resp = findAnswer(text);
+        addBubble(resp, "bot");
+      }, 450);
+    }
+
+    sendBtn.addEventListener("click", handleSubmission);
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSubmission();
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
